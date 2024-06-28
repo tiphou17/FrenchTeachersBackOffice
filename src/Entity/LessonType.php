@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LessonTypeRepository::class)]
 class LessonType
 {
+    public function __tostring(): string
+    {
+        return $this->session_type . ' ' . $this->durationInMinutes . 'minutes';
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

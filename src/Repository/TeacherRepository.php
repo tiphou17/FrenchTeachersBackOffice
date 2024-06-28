@@ -16,6 +16,25 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function getTeachers(): array
+    {
+        return $this->createQueryBuilder('teacher')
+            ->select('teacher.id', 'teacher.name', 'teacher.description', 'teacher.hook_sentence', 'teacher.email', 'teacher.phone_number', 'teacher.video_path', )
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getTeacher($teacherId): array
+    {
+        return $this->createQueryBuilder('teacher')
+            ->select('teacher.id', 'teacher.name', 'teacher.description', 'teacher.hook_sentence', 'teacher.email', 'teacher.phone_number', 'teacher.video_path', )
+            ->where('teacher.id = :id')
+            ->setParameter('id', $teacherId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    /**
     //     * @return Teacher[] Returns an array of Teacher objects
     //     */

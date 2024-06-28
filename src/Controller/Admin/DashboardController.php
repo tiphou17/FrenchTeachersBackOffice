@@ -4,11 +4,18 @@ namespace App\Controller\Admin;
 
 use App\Entity\Content;
 use App\Entity\Language;
+use App\Entity\LessonsRemaining;
 use App\Entity\LessonType;
 use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Entity\Package;
 use App\Entity\Product;
+use App\Entity\Teacher;
+use App\Entity\TeacherLanguage;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -28,11 +35,11 @@ class DashboardController extends AbstractDashboardController
     {
         // return parent::index();
 
-        $url = $this->adminUrlGenerator
-            ->setController(TeacherCrudController::class)
-            ->generateUrl();
+        // $url = $this->adminUrlGenerator
+        //     ->setController(TeacherCrudController::class)
+        //     ->generateUrl();
 
-        return $this->redirect($url);
+        // return $this->redirect($url);
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -49,6 +56,7 @@ class DashboardController extends AbstractDashboardController
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
         // return $this->render('some/path/my-dashboard.html.twig');
+        return $this->render('EasyAdminBundle/dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -59,13 +67,23 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Teachers', 'fa fa-graduation-cap');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
+        yield MenuItem::section('Teachers');
+        yield MenuItem::linkToCrud('Teachers', 'fa fa-graduation-cap', Teacher::class);
         yield MenuItem::linkToCrud('Langues', 'fas fa-globe', Language::class);
+        yield MenuItem::linkToCrud('Langues des professeurs', 'fas fa-globe', TeacherLanguage::class);
+
+        yield MenuItem::section('Packages');
         yield MenuItem::linkToCrud('Type de leçon', 'fas fa-folder', LessonType::class);
         yield MenuItem::linkToCrud('Packages', 'fas fa-cubes', Package::class);
         yield MenuItem::linkToCrud('Produits', 'fas fa-tags', Product::class);
+
+        yield MenuItem::section('Users');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Compte des leçons', 'fas fa-receipt', LessonsRemaining::class);
         yield MenuItem::linkToCrud('Commandes', 'fas fa-receipt', Order::class);
+        yield MenuItem::linkToCrud('Items commandés', 'fas fa-receipt', OrderItem::class);
+
+        yield MenuItem::section('Contenu');
         yield MenuItem::linkToCrud('Contenu', 'fas fa-bookmark', Content::class);
 
     }

@@ -13,6 +13,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class PackageCrudController extends AbstractCrudController
 {
@@ -23,18 +26,28 @@ class PackageCrudController extends AbstractCrudController
         return Package::class;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            // ...
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+
+        ;
+    }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('title'),
-            TextEditorField::new('description'),
+            TextEditorField::new('description')
+                ->hideOnIndex(),
             ImageField::new('image')
                 ->setBasePath(self::PACKAGE_BASE_PATH)
                 ->setUploadDir(self::PACKAGE_UPLOAD_DIR),
             IntegerField::new('nb_lessons'),
-            ChoiceField::new('type')
+            AssociationField::new('type'),
+
         ];
     }
 

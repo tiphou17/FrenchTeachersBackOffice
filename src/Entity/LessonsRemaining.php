@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LessonsRemainingRepository::class)]
 class LessonsRemaining
 {
+    public function __tostring(): string
+    {
+        return 'Reste' . $this->balance . 'avec' . $this->teacher;
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

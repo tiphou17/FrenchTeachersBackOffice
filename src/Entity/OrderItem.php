@@ -8,6 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
 {
+    public function __tostring(): string
+    {
+        return (string) $this->product;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -49,4 +54,5 @@ class OrderItem
 
         return $this;
     }
+
 }

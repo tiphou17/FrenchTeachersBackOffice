@@ -8,10 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TeacherLanguageRepository::class)]
 class TeacherLanguage
 {
+    public function __tostring(): string
+    {
+        return (string) $this->language;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id;
 
     #[ORM\ManyToOne(inversedBy: 'teacherLanguages')]
     #[ORM\JoinColumn(nullable: false)]

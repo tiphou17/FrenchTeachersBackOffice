@@ -16,7 +16,15 @@ class ContentRepository extends ServiceEntityRepository
         parent::__construct($registry, Content::class);
     }
 
-//    /**
+    public function getContent(): array
+    {
+        return $this->createQueryBuilder('content')
+            ->select('content.id', 'content.component_name', 'content.value')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    //    /**
 //     * @return Content[] Returns an array of Content objects
 //     */
 //    public function findByExampleField($value): array
@@ -31,7 +39,7 @@ class ContentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Content
+    //    public function findOneBySomeField($value): ?Content
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
